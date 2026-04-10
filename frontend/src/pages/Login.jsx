@@ -14,7 +14,7 @@ const Login = () => {
   const [phone, setPhone] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   
-  const { login } = useAuth();
+  const { login, loginWithOtp, loginWithGoogle } = useAuth();
   const navigate = useNavigate();
 
   const handleEmailLogin = async (e) => {
@@ -37,9 +37,8 @@ const Login = () => {
     e.preventDefault();
     if (role === 'employer') return alert('Employers cannot use OTP.');
     try {
-      const { data } = await api.post('/auth/otp', { phone });
-      localStorage.setItem('userInfo', JSON.stringify(data));
-      window.location.href = '/';
+      await loginWithOtp(phone);
+      navigate('/');
     } catch (error) {
       alert('Mock OTP Failed. Ensure Backend is running.');
     }
@@ -48,12 +47,8 @@ const Login = () => {
   const handleGoogleLogin = async () => {
     if (role === 'employer') return alert('Employers must use Email/Password.');
     try {
-      const { data } = await api.post('/auth/google', { 
-        email: 'testuser@google.com', 
-        name: 'Google Test User' 
-      });
-      localStorage.setItem('userInfo', JSON.stringify(data));
-      window.location.href = '/';
+      await loginWithGoogle('testuser@google.com', 'Google Test User');
+      navigate('/');
     } catch (error) {
       alert('Mock Google Auth Failed. Ensure Backend is running.');
     }
@@ -139,8 +134,8 @@ const Login = () => {
               onClick={() => { 
                 setRole('employer'); 
                 setAuthMethod('email'); 
-                setEmail('employer@edukeeda.demo'); // Pre-fill for employer convenience!
-                setPassword('admin123'); 
+                setEmail(''); 
+                setPassword(''); 
               }}
               className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-semibold text-sm transition-all ${role === 'employer' ? 'bg-[#1D2847] text-white shadow-md border border-white/10' : 'text-slate-400 hover:text-slate-200'}`}
             >
@@ -167,7 +162,7 @@ const Login = () => {
                         <input 
                           type="email" required
                           className="w-full pl-12 pr-4 py-3 bg-[#0B0F19]/50 border border-white/10 rounded-xl focus:bg-[#0B0F19] focus:ring-2 ring-purple-500 outline-none transition-all font-medium text-white placeholder-slate-500" 
-                          placeholder={role === 'employer' ? "employer@edukeeda.demo" : "candidate@email.com"}
+                          placeholder={role === 'employer' ? "employer@email.com" : "candidate@email.com"}
                           value={email} onChange={e => setEmail(e.target.value)} 
                         />
                       </div>
@@ -239,12 +234,6 @@ const Login = () => {
              </div>
           )}
 
-          {/* Employer specific note */}
-          {role === 'employer' && (
-            <div className="mt-6 text-center text-xs text-purple-200/60 leading-relaxed bg-purple-900/20 p-4 rounded-xl border border-purple-500/20">
-              Employers must use their predefined credentials. Test Account: <br/><strong className="text-purple-300">employer@edukeeda.demo</strong> <br/> Password: <strong className="text-purple-300">admin123</strong>
-            </div>
-          )}
 
         </motion.div>
 

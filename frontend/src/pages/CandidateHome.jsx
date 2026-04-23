@@ -1,10 +1,20 @@
 import React, { useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Footer from '../components/Footer';
+import { useAuth } from '../context/AuthContext';
 
 const CandidateHome = () => {
+  const { user } = useAuth();
   const scrollRef = useRef(null);
+
+  const scrollContainer = (direction) => {
+    if (scrollRef.current) {
+      const scrollAmount = 300;
+      scrollRef.current.scrollBy({ left: direction === 'left' ? -scrollAmount : scrollAmount, behavior: 'smooth' });
+    }
+  };
 
   const categories = [
     { title: 'Hackathons', path: '/hackathons', emoji: '💻' },
@@ -142,8 +152,15 @@ const CandidateHome = () => {
       </section>
 
       {/* CATEGORY CHIPS */}
-      <section>
-        <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-hide snap-x">
+      <section className="relative group">
+        <button 
+          onClick={() => scrollContainer('left')}
+          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center bg-slate-800 backdrop-blur-md rounded-full shadow-md border border-slate-700 text-white opacity-0 group-hover:opacity-100 transition-opacity -ml-4 hover:bg-slate-700"
+        >
+          <ChevronLeft size={20} />
+        </button>
+
+        <div ref={scrollRef} className="flex gap-3 overflow-x-auto scroll-smooth pb-4 scrollbar-hide snap-x px-2">
           {categories.map((cat, i) => (
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -161,6 +178,13 @@ const CandidateHome = () => {
             </motion.div>
           ))}
         </div>
+
+        <button 
+          onClick={() => scrollContainer('right')}
+          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center bg-slate-800 backdrop-blur-md rounded-full shadow-md border border-slate-700 text-white opacity-0 group-hover:opacity-100 transition-opacity -mr-4 hover:bg-slate-700"
+        >
+          <ChevronRight size={20} />
+        </button>
       </section>
 
       {/* FEATURED CAROUSEL (UNSTOP STYLE) */}

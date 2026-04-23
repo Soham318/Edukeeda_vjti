@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
@@ -24,12 +24,13 @@ const ProtectedRoute = ({ children, employerOnly = false }) => {
 
 const Layout = ({ children }) => {
   const { user } = useAuth();
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
 
   return (
     <div className="min-h-screen bg-[#0B0F19] text-slate-100 selection:bg-purple-500/30 font-sans flex flex-col">
       <Navbar />
-      {user && <Sidebar />}
-      <main className={`pt-16 ${user ? 'md:ml-64' : ''} flex-1 transition-all duration-300 relative z-0`}>
+      {user && <Sidebar isExpanded={isSidebarExpanded} setIsExpanded={setIsSidebarExpanded} />}
+      <main className={`pt-16 ${user ? (isSidebarExpanded ? 'md:ml-64' : 'md:ml-20') : ''} flex-1 transition-all duration-300 relative z-0`}>
         {children}
       </main>
     </div>

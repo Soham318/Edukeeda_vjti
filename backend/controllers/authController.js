@@ -227,3 +227,44 @@ exports.resetPassword = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// @desc    Update User Profile
+exports.updateProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+
+    if (user) {
+      user.name = req.body.name || user.name;
+      user.phone = req.body.phone !== undefined ? req.body.phone : user.phone;
+      user.educationDetails = req.body.educationDetails !== undefined ? req.body.educationDetails : user.educationDetails;
+      user.category = req.body.category || user.category;
+      user.experienceLevel = req.body.experienceLevel || user.experienceLevel;
+      user.domain = req.body.domain !== undefined ? req.body.domain : user.domain;
+      user.skills = req.body.skills !== undefined ? req.body.skills : user.skills;
+      user.interests = req.body.interests !== undefined ? req.body.interests : user.interests;
+      user.location = req.body.location !== undefined ? req.body.location : user.location;
+      
+      const updatedUser = await user.save();
+
+      res.json({
+        _id: updatedUser.id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        phone: updatedUser.phone,
+        role: updatedUser.role,
+        educationDetails: updatedUser.educationDetails,
+        category: updatedUser.category,
+        experienceLevel: updatedUser.experienceLevel,
+        domain: updatedUser.domain,
+        skills: updatedUser.skills,
+        interests: updatedUser.interests,
+        location: updatedUser.location,
+        token: generateToken(updatedUser._id, updatedUser.role)
+      });
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

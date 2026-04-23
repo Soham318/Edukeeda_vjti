@@ -59,10 +59,17 @@ export const Privacy = () => (
 export const Contact = () => (
   <PageContainer title="Contact Us">
     <p>If you need further assistance, our support team is ready to help!</p>
-    <div className="bg-slate-900/50 p-6 rounded-2xl border border-slate-700 mt-6 inline-block pr-12">
-      <p className="mb-2"><strong>Email:</strong> <span className="text-purple-400">support@edukeeda.com</span></p>
-      <p className="mb-2"><strong>Phone:</strong> <span className="text-purple-400">+1 (800) 555-0199</span></p>
-      <p><strong>Address:</strong> <span className="text-purple-400">123 Education Lane, Tech Valley, CA 94000</span></p>
+    <div className="bg-slate-900/50 p-6 rounded-2xl border border-slate-700 mt-6 inline-block pr-12 w-full md:w-auto">
+      <div className="mb-6">
+        <h3 className="text-lg font-bold text-white mb-2 border-b border-white/10 pb-1">Soham Chavan</h3>
+        <p className="mb-1 text-sm"><strong>Email:</strong> <span className="text-purple-400">soham@gmail.com</span></p>
+        <p className="text-sm"><strong>Phone:</strong> <span className="text-purple-400">+91 98765 43210</span></p>
+      </div>
+      <div>
+        <h3 className="text-lg font-bold text-white mb-2 border-b border-white/10 pb-1">Rohan Patil</h3>
+        <p className="mb-1 text-sm"><strong>Email:</strong> <span className="text-purple-400">rohann@gmail.com</span></p>
+        <p className="text-sm"><strong>Phone:</strong> <span className="text-purple-400">+91 91234 56789</span></p>
+      </div>
     </div>
     <div className="mt-8 border-t border-slate-700 pt-6">
        <p className="text-sm text-slate-400">Response time is typically within 24 hours on business days.</p>

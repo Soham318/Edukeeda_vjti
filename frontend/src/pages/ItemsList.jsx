@@ -33,14 +33,41 @@ const ItemsList = ({ type, title, subtitle }) => {
     return true;
   });
 
+  const getBannerImage = (type) => {
+    const defaultImg = "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80";
+    const imageMap = {
+      'Hackathon': "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80",
+      'Cultural Event': "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80", 
+      'Scholarship': "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1200&q=80",
+      'Internship': "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80",
+      'College Event': "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1200&q=80",
+      'Conference': "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=1200&q=80",
+      'Course': "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80",
+      'Competition': "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1200&q=80"
+    };
+    return imageMap[type] || defaultImg;
+  };
+
   return (
     <div className="p-6 md:p-10 max-w-7xl mx-auto space-y-8">
       
-      <div className="bg-[#131B2F] border border-white/5 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-purple-600/20 rounded-full mix-blend-screen filter blur-3xl opacity-30"></div>
-        <div className="relative z-10">
-          <h1 className="text-4xl md:text-5xl font-black text-white mb-4 drop-shadow-md">{title}</h1>
-          <p className="text-lg text-slate-300 font-medium">{subtitle}</p>
+      {/* VIBRANT DYNAMIC BANNER */}
+      <div className="relative bg-[#0B0F19] border border-white/10 rounded-[2.5rem] p-8 md:p-14 shadow-2xl overflow-hidden min-h-[320px] flex items-center group">
+        <div className="absolute inset-0 z-0">
+           <img 
+              src={getBannerImage(type)} 
+              alt={title} 
+              className="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-1000 mix-blend-overlay grayscale-[0.2]"
+           />
+           {/* Dark Gradient Overlay to isolate text */}
+           <div className="absolute inset-0 bg-gradient-to-r from-[#0B0F19] via-[#0B0F19]/80 to-transparent"></div>
+           
+           {/* Crazy Pulsing Abstract Lighting */}
+           <div className="absolute top-[-30%] right-[-10%] w-[60%] h-[160%] bg-gradient-to-br from-purple-600/30 to-indigo-500/20 mix-blend-screen filter blur-[120px] group-hover:bg-purple-500/40 transition-colors duration-1000"></div>
+        </div>
+        <div className="relative z-10 max-w-2xl hover:scale-[1.02] transition-transform">
+          <h1 className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-purple-200 mb-6 drop-shadow-xl tracking-tight leading-tight">{title}</h1>
+          <p className="text-xl md:text-2xl text-indigo-100 font-medium drop-shadow-md">{subtitle}</p>
         </div>
       </div>
 
